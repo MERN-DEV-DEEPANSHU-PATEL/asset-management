@@ -72,7 +72,7 @@ export default function AssetForm({
   defaultAsset = defaultAssetEmpty,
   reFetch,
 }: {
-  reFetch: any;
+  reFetch?: any;
   isEdit?: boolean;
   defaultAsset?: AssetInterface;
 }) {

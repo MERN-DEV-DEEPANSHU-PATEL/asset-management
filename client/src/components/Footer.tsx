@@ -1,7 +1,3 @@
-import React from "react";
-
-type Props = {};
-
 const Footer = () => {
   return (
     <footer className="bg-white rounded-lg shadow  dark:bg-gray-800">
