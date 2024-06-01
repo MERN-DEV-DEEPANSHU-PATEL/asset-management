@@ -21,11 +21,15 @@ const useGetData = <T>(url: string) => {
     }
   }, [url]);
 
+  const reFetch = useCallback(() => {
+    fetchData();
+  }, [fetchData]);
+
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
-  return { data, loading, error };
+  return { data, loading, error, reFetch };
 };
 
 export default useGetData;

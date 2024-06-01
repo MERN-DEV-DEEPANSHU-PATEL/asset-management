@@ -46,12 +46,16 @@ const TicketForm = ({
   data,
   loading,
   error,
+  reFetch,
+  mReFetch,
 }: {
   isEdit?: boolean;
   defaultValues?: TicketInterface;
   data: { motorId: string; _id: string }[] | null;
   loading: boolean;
   error: null | AxiosError;
+  reFetch: any;
+  mReFetch: any;
 }) => {
   const [formData, setFormData] = useState<TicketInterface>(defaultValues);
 
@@ -80,6 +84,9 @@ const TicketForm = ({
       }
     } catch (error) {
       throwError(error);
+    } finally {
+      reFetch();
+      mReFetch();
     }
   };
 

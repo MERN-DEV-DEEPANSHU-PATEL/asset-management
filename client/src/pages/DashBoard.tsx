@@ -26,7 +26,7 @@ import {
 import { Link } from "react-router-dom";
 import { AssetInterface } from "@/components/AssetForm";
 import TicketForm from "@/components/TicketForm";
-import { formatDate } from "./Maintenance";
+import { formatDate } from "@/utils/formateDate";
 interface DashBoardData {
   totalMotors: number;
   activeMotors: number;
@@ -36,11 +36,13 @@ interface DashBoardData {
 }
 
 const DashBoard = () => {
-  const { data, error, loading } = useGetData<DashBoardData>("/api/dashboard");
+  const { data, error, loading, reFetch } =
+    useGetData<DashBoardData>("/api/dashboard");
   const {
     data: motorIds,
     loading: mLoading,
     error: mError,
+    reFetch: mReFetch,
   } = useGetData<{ _id: string; motorId: string }[]>("/api/tickets/motorId");
   if (loading) <Loading />;
 
@@ -144,6 +146,8 @@ const DashBoard = () => {
                       </Link>
                       <TicketForm
                         data={motorIds}
+                        reFetch={reFetch}
+                        mReFetch={mReFetch}
                         loading={mLoading}
                         error={mError}
                         defaultValues={{

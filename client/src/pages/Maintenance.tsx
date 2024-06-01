@@ -11,30 +11,23 @@ import TicketForm, { TicketInterface } from "@/components/TicketForm";
 import useGetData from "@/hooks/useGetData";
 import Loading from "@/components/ui/loader";
 import DeleteTicket from "@/components/DeleteTicket";
+import { formatDate } from "@/utils/formateDate";
 
 interface FullTicketInterface extends TicketInterface {
   dateRaised: string;
 }
 
 // Helper function to format date
-export const formatDate = (dateString: string) => {
-  const options: Intl.DateTimeFormatOptions = {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  };
-  const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", options);
-};
 
 export function Maintenance() {
-  const { data, loading, error } =
+  const { data, loading, error, reFetch } =
     useGetData<FullTicketInterface[]>("/api/tickets");
 
   const {
     data: motorIds,
     loading: mLoading,
     error: mError,
+    reFetch: mReFetch,
   } = useGetData<{ _id: string; motorId: string }[]>("/api/tickets/motorId");
 
   if (loading) return <Loading />;
@@ -46,7 +39,13 @@ export function Maintenance() {
         <h1 className="text-2xl font-bold dark:text-gray-300">
           Maintenance Tickets
         </h1>
-        <TicketForm data={motorIds} loading={mLoading} error={mError} />
+        <TicketForm
+          mReFetch={mReFetch}
+          reFetch={reFetch}
+          data={motorIds}
+          loading={mLoading}
+          error={mError}
+        />
       </div>
       <div className="overflow-x-auto">
         <Table>
@@ -86,13 +85,21 @@ export function Maintenance() {
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <TicketForm
+                      mReFetch={mReFetch}
+                      reFetch={reFetch}
                       data={motorIds}
                       loading={mLoading}
                       error={mError}
                       isEdit={true}
                       defaultValues={item}
                     />
-                    {item._id && <DeleteTicket id={item._id} />}
+                    {item._id && (
+                      <DeleteTicket
+                        mReFetch={mReFetch}
+                        reFetch={reFetch}
+                        id={item._id}
+                      />
+                    )}
                   </div>
                 </TableCell>
               </TableRow>

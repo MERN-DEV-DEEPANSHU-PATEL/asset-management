@@ -4,7 +4,7 @@ import Loading from "@/components/ui/loader";
 import useGetData from "@/hooks/useGetData";
 
 export function Assets() {
-  const { data, error, loading } = useGetData("/api/assets");
+  const { data, error, loading, reFetch } = useGetData("/api/assets");
   if (!loading) {
     console.log(data);
     console.log(error);
@@ -14,11 +14,13 @@ export function Assets() {
   ) : data ? (
     <div className="container mx-auto px-4 md:px-6 py-8">
       <div className="flex items-center justify-between mb-6 flex-wrap">
-        <AssetForm />
+        <AssetForm reFetch={reFetch} />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {Array.isArray(data) &&
-          data?.map((item: AssetInterface) => <MotorCard {...item} />)}
+          data?.map((item: AssetInterface) => (
+            <MotorCard reFetch={reFetch} {...item} />
+          ))}
       </div>
     </div>
   ) : (

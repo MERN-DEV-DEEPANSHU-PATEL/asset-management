@@ -12,11 +12,21 @@ import { useCallback } from "react";
 import { makeRequest } from "@/hooks/usePrivateAxios";
 import { toast } from "react-toastify";
 import { throwError } from "@/utils/throwError";
-const DeleteTicket = ({ id }: { id: string }) => {
+const DeleteTicket = ({
+  id,
+  reFetch,
+  mReFetch,
+}: {
+  id: string;
+  reFetch: any;
+  mReFetch: any;
+}) => {
   const handleDelete = useCallback(async () => {
     try {
       await makeRequest.delete(`/api/tickets/${id}`);
       toast.success("Ticket Deleted");
+      reFetch();
+      mReFetch();
     } catch (error) {
       throwError(error);
     }

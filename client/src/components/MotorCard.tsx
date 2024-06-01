@@ -10,7 +10,11 @@ import { Link } from "react-router-dom";
 import AssetForm, { AssetInterface } from "./AssetForm";
 import DeleteAsset from "./DeleteAsset";
 
-const MotorCard = (props: AssetInterface) => {
+interface props extends AssetInterface {
+  reFetch: any;
+}
+
+const MotorCard = ({ reFetch, ...props }: props) => {
   const { specifications, specificationsValues } = props;
   return (
     <Card>
@@ -74,7 +78,7 @@ const MotorCard = (props: AssetInterface) => {
         </CardContent>
       </Link>
       <CardFooter className="flex justify-end gap-2">
-        <AssetForm isEdit={true} defaultAsset={props} />
+        <AssetForm reFetch={reFetch} isEdit={true} defaultAsset={props} />
         <DeleteAsset id={props._id} />
       </CardFooter>
     </Card>

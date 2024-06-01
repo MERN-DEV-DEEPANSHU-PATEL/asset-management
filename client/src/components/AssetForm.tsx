@@ -70,6 +70,11 @@ const defaultAssetEmpty: AssetInterface = {
 export default function AssetForm({
   isEdit = false,
   defaultAsset = defaultAssetEmpty,
+  reFetch,
+}: {
+  reFetch: any;
+  isEdit?: boolean;
+  defaultAsset?: AssetInterface;
 }) {
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState<AssetInterface>(defaultAsset);
@@ -121,6 +126,8 @@ export default function AssetForm({
     } catch (error: any) {
       console.log(error);
       throwError(error);
+    } finally {
+      reFetch();
     }
   };
 
